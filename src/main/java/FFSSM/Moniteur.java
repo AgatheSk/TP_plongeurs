@@ -2,17 +2,32 @@
  * @(#) Moniteur.java
  */
 package FFSSM;
-
+ 
 import java.time.LocalDate;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
 public class Moniteur extends Plongeur {
 
     public int numeroDiplome;
+    
+    private LinkedList<Embauche> employeurs = new LinkedList<>();
 
-    public Moniteur(String numeroINSEE, String nom, String prenom, String adresse, String telephone, LocalDate naissance, int numeroDiplome) {
-        super(numeroINSEE, nom, prenom, adresse, telephone, naissance);
+    /**
+     *
+     * @param numeroINSEE
+     * @param nom
+     * @param prenom
+     * @param adresse
+     * @param telephone
+     * @param naissance
+     * @param niveau
+     * @param numeroDiplome
+     * @param groupe
+     */
+    public Moniteur(String numeroINSEE, String nom, String prenom, String adresse, String telephone, LocalDate naissance, int niveau, int numeroDiplome, GroupeSanguin groupe) {
+        super(numeroINSEE, nom, prenom, adresse, telephone, naissance, niveau, groupe);
         this.numeroDiplome = numeroDiplome;
     }
 
@@ -22,8 +37,7 @@ public class Moniteur extends Plongeur {
      * @return l'employeur actuel de ce moniteur sous la forme d'un Optional
      */
     public Optional<Club> employeurActuel() {
-         // TODO: Implémenter cette méthode
-        throw new UnsupportedOperationException("Pas encore implémenté");
+        return Optional.ofNullable(this.employeurs.peekLast().getEmployeur());
     }
     
     /**
@@ -31,14 +45,17 @@ public class Moniteur extends Plongeur {
      * @param employeur le club employeur
      * @param debutNouvelle la date de début de l'embauche
      */
-    public void nouvelleEmbauche(Club employeur, LocalDate debutNouvelle) {   
-         // TODO: Implémenter cette méthode
-        throw new UnsupportedOperationException("Pas encore implémenté");	    
+    public void nouvelleEmbauche(Club employeur, LocalDate debutNouvelle) { 
+        this.employeurs.add(new Embauche(debutNouvelle, this, employeur));	    
     }
 
     public List<Embauche> emplois() {
-         // TODO: Implémenter cette méthode
-        throw new UnsupportedOperationException("Pas encore implémenté");
+        return this.employeurs;
     }
 
+    public void terminerEmbauche(LocalDate fin){
+        if(this.employeurActuel().isPresent()){
+            this.employeurs.peekLast().terminer(fin);
+        }
+    }
 }

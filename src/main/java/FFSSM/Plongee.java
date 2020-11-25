@@ -18,6 +18,8 @@ public class Plongee {
 	public int profondeur;
 
 	public int duree;
+        
+        public  Set<Licence> palanquee;
 
 	public Plongee(Site lieu, Moniteur chefDePalanquee, LocalDate date, int profondeur, int duree) {
 		this.lieu = lieu;
@@ -25,11 +27,15 @@ public class Plongee {
 		this.date = date;
 		this.profondeur = profondeur;
 		this.duree = duree;
+                this.palanquee= new HashSet<>();
 	}
+        
+        public Plongee(Moniteur chef){
+            this.chefDePalanquee=chef;
+        }
 
-	public void ajouteParticipant(Plongeur participant) {
-		// TODO: Implémenter cette méthode
-		throw new UnsupportedOperationException("Pas encore implémenté");
+	public void ajouteParticipant(Licence l) {
+                this.palanquee.add(l);
 	}
 
 	public LocalDate getDate() {
@@ -43,8 +49,11 @@ public class Plongee {
 	 * @return vrai si la plongée est conforme
 	 */
 	public boolean estConforme() {
-		// TODO: Implémenter cette méthode
-		throw new UnsupportedOperationException("Pas encore implémenté");
+                for(Licence l: this.palanquee){
+                    if(!l.estValide(this.date))
+                        return false;
+                }
+                return true;
 	}
 
 }

@@ -14,14 +14,20 @@ public class Licence {
     public LocalDate delivrance;
 
     public Club club;
-
+   
     public Licence(Personne possesseur, String numero, LocalDate delivrance, Club club) {
         this.possesseur = possesseur;
-        this.numero = numero;
+        this.setNumero(numero);
         this.delivrance = delivrance;
         this.club = club;
     }
 
+    public void setNumero(String numero) {
+        if (null == numero)
+		throw new IllegalArgumentException("numero is null");
+        this.numero = numero;
+    }
+    
     public Personne getPossesseur() {
         return possesseur;
     }
@@ -45,8 +51,8 @@ public class Licence {
      * @return vrai si valide à la date d
      **/
     public boolean estValide(LocalDate d) {
-         // TODO: Implémenter cette méthode
-        throw new UnsupportedOperationException("Pas encore implémenté");
+        // si la date de delivrance + 1 ans est supérieure ou égale à la date de plongée 
+        return this.delivrance.plusYears(1).isAfter(d) || this.delivrance.plusYears(1).isEqual(d);
     }
 
 }
