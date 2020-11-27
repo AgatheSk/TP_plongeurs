@@ -38,13 +38,10 @@ public class Moniteur extends Plongeur {
      * @return l'employeur actuel de ce moniteur sous la forme d'un Optional
      */
     public Optional<Club> employeurActuel() {
-        System.out.println("Taille : "+this.employeurs.size());
-        if (this.employeurs.peekLast().estTerminee() || this.employeurs.isEmpty()) {
-                    System.out.println("OUUUUUUUIIIIIII");
-
+        System.out.println("Taille : " + this.employeurs.size());
+        if (this.employeurs.isEmpty() || this.employeurs.peekLast().estTerminee()) {
             return Optional.empty();
         }
-        System.out.println("ok1");
         return Optional.of(this.employeurs.peekLast().getEmployeur());
     }
 
@@ -63,15 +60,12 @@ public class Moniteur extends Plongeur {
     }
 
     public void terminerEmbauche(LocalDate fin) {
-                System.out.println("ok2");
-
         if (this.employeurActuel().isEmpty()) {
-                    System.out.println("ok3");
 
-                        throw new IllegalArgumentException(this.nom + " " + this.prenom + " n'est pas employé.");
+            throw new IllegalArgumentException(this.nom + " " + this.prenom + " n'est pas employé.");
 
         } else {
-                        this.employeurs.peekLast().terminer(fin);
+            this.employeurs.peekLast().terminer(fin);
 
         }
     }

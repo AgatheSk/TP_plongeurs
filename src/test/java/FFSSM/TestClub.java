@@ -54,7 +54,7 @@ public class TestClub {
     
     public void TestPlongeeNonConforme(){
         l2=new Licence(p,"8456", LocalDate.of(2022,12,31), c1);
-        pl1.ajouteParticipant(l1);
+        pl1.ajouteParticipant(l2);
         // l2 non valide
         pl2.ajouteParticipant(l2);
         c1.organisePlongee(pl1);
@@ -62,7 +62,8 @@ public class TestClub {
         Set<Plongee> pltest;
         pltest = new HashSet<>();
         pltest.add(pl2);
-        assertEquals(pltest, c1.plongeesNonConformes(), "La plongée 2 n'est pas censé être conforme");
+        pltest.add(pl1);
+        assertEquals(pltest, c1.plongeesNonConformes(), "Les plongées ne sont pas censés être conformes");
     }
     
 }
