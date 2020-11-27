@@ -52,7 +52,7 @@ public class Licence {
      **/
     public boolean estValide(LocalDate d) {
         // si la date de delivrance + 1 ans est supérieure ou égale à la date de plongée 
-        return this.delivrance.plusYears(1).isAfter(d) || this.delivrance.plusYears(1).isEqual(d);
+        return this.delivrance.plusYears(1).isEqual(d) || this.delivrance.plusYears(1).isAfter(d);
     }
 
 }

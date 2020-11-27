@@ -2,7 +2,7 @@
  * @(#) Moniteur.java
  */
 package FFSSM;
- 
+
 import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.List;
@@ -11,7 +11,7 @@ import java.util.Optional;
 public class Moniteur extends Plongeur {
 
     public int numeroDiplome;
-    
+
     private LinkedList<Embauche> employeurs = new LinkedList<>();
 
     /**
@@ -32,30 +32,56 @@ public class Moniteur extends Plongeur {
     }
 
     /**
-     * Si ce moniteur n'a pas d'embauche, ou si sa dernière embauche est terminée,
-     * ce moniteur n'a pas d'employeur.
+     * Si ce moniteur n'a pas d'embauche, ou si sa dernière embauche est
+     * terminée, ce moniteur n'a pas d'employeur.
+     *
      * @return l'employeur actuel de ce moniteur sous la forme d'un Optional
      */
     public Optional<Club> employeurActuel() {
-        return Optional.ofNullable(this.employeurs.peekLast().getEmployeur());
+        System.out.println("Taille : "+this.employeurs.size());
+        if (this.employeurs.peekLast().estTerminee() || this.employeurs.isEmpty()) {
+                    System.out.println("OUUUUUUUIIIIIII");
+
+            return Optional.empty();
+        }
+        System.out.println("ok1");
+        return Optional.of(this.employeurs.peekLast().getEmployeur());
     }
-    
+
     /**
      * Enregistrer une nouvelle embauche pour cet employeur
+     *
      * @param employeur le club employeur
      * @param debutNouvelle la date de début de l'embauche
      */
-    public void nouvelleEmbauche(Club employeur, LocalDate debutNouvelle) { 
-        this.employeurs.add(new Embauche(debutNouvelle, this, employeur));	    
+    public void nouvelleEmbauche(Club employeur, LocalDate debutNouvelle) {
+        this.employeurs.add(new Embauche(debutNouvelle, this, employeur));
     }
 
     public List<Embauche> emplois() {
         return this.employeurs;
     }
 
-    public void terminerEmbauche(LocalDate fin){
-        if(this.employeurActuel().isPresent()){
-            this.employeurs.peekLast().terminer(fin);
+    public void terminerEmbauche(LocalDate fin) {
+                System.out.println("ok2");
+
+        if (this.employeurActuel().isEmpty()) {
+                    System.out.println("ok3");
+
+                        throw new IllegalArgumentException(this.nom + " " + this.prenom + " n'est pas employé.");
+
+        } else {
+                        this.employeurs.peekLast().terminer(fin);
+
         }
     }
+
+    public int getNumeroDiplome() {
+        return numeroDiplome;
+    }
+
+    public LinkedList<Embauche> getEmployeurs() {
+        return employeurs;
+    }
+
 }

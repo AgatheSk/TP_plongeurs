@@ -3,6 +3,7 @@
  */
 package FFSSM;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -62,7 +63,8 @@ public class Club {
 
     public void setPresident(Moniteur président) {
         if (null == président)
-            throw new IllegalArgumentException("president is null");
+            // Le président est inconnu, sans plus de précision sur la sujet, le président n'est pas obligatoire
+            this.president=new Moniteur("Inconnu", "Inconnu", "Inconnu", "Inconnu", "Inconnu", LocalDate.EPOCH,0,0,null);
         this.president = président;
     }
 
